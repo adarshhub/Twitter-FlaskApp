@@ -1,0 +1,49 @@
+{%extends "layout.html" %} {% block body %}
+<h1 class="display-3">Message</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('index')}}" class="btn btn-dark ">Home</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('logout')}}" class="btn btn-danger ">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Page content -->
+<div class="row">
+    <div class="col">
+        <form action="" method="POST" class="mb-5">
+            {{ form.hidden_tag() }}
+            <div class="form-group mt-3">
+                <label class="form-control-label">To</label>
+                {{ form.to(class="form-control")}}
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">Message Text</label>
+                {{ form.msg(class="form-control", rows="3")}}
+            </div>
+            <div class="form-group">
+                {{ form.send(class="btn btn-primary mb-2", style="position: absolute; right: 9%;")}}
+            </div>
+        </form>
+    </div>
+    <div class="col" style="overflow: scroll">
+        <div style="max-height: 400px">
+            <h2>Messages</h2>
+            {% for msg in msgs %}
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header"><img src="{{msg.img_url}}" alt="Avatar" style="width:50px"> {{msg.name}}</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{msg.created_at}}</h4>
+                    <p class="card-text">{{msg.text}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{%endblock body %}

@@ -1,0 +1,47 @@
+{%extends "layout.html" %} {% block body%}
+<h1 class="display-3 pb-4">Sign Up</h1>
+<div>
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.email.label(class="form-control-label")}} {{
+      form.email(class="form-control")}} {%if form.email.errors %}
+      <div>
+        {% for error in form.email.errors %}
+        <small class="text-danger">{{ error }}</small>
+        {% endfor%}
+      </div>
+      {%endif%}
+    </div>
+    <div class="form-group">
+      {{ form.password.label(class="form-control-label")}} {{
+      form.password(class="form-control")}} {%if form.password.errors %}
+      <div>
+        {% for error in form.password.errors %}
+        <small class="text-danger">{{ error }}</small>
+        {% endfor%}
+      </div>
+      {%endif%}
+    </div>
+    <div class="form-group">
+      {{ form.confirm_password.label(class="form-control-label")}} {{
+      form.confirm_password(class="form-control")}} {%if
+      form.confirm_password.errors %}
+      <div>
+        {% for error in form.confirm_password.errors %}
+        <small class="text-danger">{{ error }}</small>
+        {% endfor%}
+      </div>
+      {%endif%}
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary")}}
+    </div>
+  </form>
+</div>
+<div>
+  <small class="text-muted">
+    <a href="{{url_for('login')}}">Login</a>
+  </small>
+</div>
+{%endblock body %}

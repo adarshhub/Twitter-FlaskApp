@@ -1,0 +1,24 @@
+{%extends "layout.html" %} {% block body%}
+<h1 class="display-3 pb-4">login</h1>
+<div>
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.email.label(class="form-control-label")}} {{
+      form.email(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.password.label(class="form-control-label")}} {{
+      form.password(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary")}}
+    </div>
+  </form>
+</div>
+<div>
+  <small class="text-muted">
+    <a href="{{url_for('signup')}}">Sign Up</a>
+  </small>
+</div>
+{%endblock body %}

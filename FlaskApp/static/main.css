@@ -1,0 +1,17 @@
+
+nav {
+  min-height: 54px;
+}
+
+.logout{
+  right:10px;
+  position: absolute;
+}
+
+img {
+  border-radius: 50%;
+}
+
+div.tweet-box{
+  max-height: 350px;
+}
