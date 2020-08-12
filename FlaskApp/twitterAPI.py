@@ -1,20 +1,22 @@
 import twitter
 from datetime import datetime
-from FlaskApp import db
+from FlaskApp.config import db
 from FlaskApp.token import consumer_token, consumer_secret
 from FlaskApp.models import TwitterMsg, User
+from flask_login import current_user, login_required
 
 my_id = ''
 my_name = ''
 my_twitter_handler = ''
 api = None
 
-def create_api(access_token, access_token_secret):
+@login_required
+def create_api():
     global api, my_id, my_name
     api = twitter.Api(consumer_key=consumer_token,
                     consumer_secret=consumer_secret,
-                    access_token_key=access_token,
-                    access_token_secret=access_token_secret)
+                    access_token_key=current_user.access_token,
+                    access_token_secret=current_user.access_token_secret)
     api.DEFAULT_CACHE_TIMEOUT= 60
     my_credentials = api.VerifyCredentials()
     my_id = my_credentials.id

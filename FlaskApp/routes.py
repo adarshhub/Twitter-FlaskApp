@@ -2,7 +2,7 @@ from flask import render_template, url_for, redirect, flash, request, session
 from FlaskApp.forms import LoginForm, RegistrationForm, TweetForm, MessageForm
 from FlaskApp.models import User, TwitterMsg, Tweet
 from FlaskApp.token import consumer_token, consumer_secret
-from FlaskApp import app, db, bcrypt
+from FlaskApp.config import app, db, bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from FlaskApp.twitterAPI import post_tweet, my_timeline, send_msg, fetch_messages, create_api, get_my_id
 import requests, tweepy
@@ -45,7 +45,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             session['id'] = user.id
-            create_api(user.access_token, user.access_token_secret)
+            create_api()
             return redirect(url_for('index'))
         else:
             flash("Login unsuccessfull. Check email or password.", 'danger')
@@ -62,13 +62,18 @@ def index():
             flash("Successfull.", 'success')
         else:
             flash("Unsuccessfull. Please Try again.", 'danger')
-    all_tweets = my_timeline()
+    return render_template("index.html", title="home", form=form)
 
+
+@app.route('/friends_tweet', methods=['GET', 'POST'])
+@login_required
+def friends_tweet():
+    all_tweets = my_timeline()
     #filtering tweets
     my_friends = current_user.friends
     friends_tweets = [tweet for tweet in all_tweets if tweet.user.screen_name in [x.friend_twitter_handler for x in my_friends]]
     store_tweets_into_db(friends_tweets)
-    return render_template("index.html", title="home", form=form, tweets=friends_tweets)
+    return render_template("friends_tweet.html", title="Tweet", tweets=friends_tweets)
 
 def store_tweets_into_db(tweets):
     for _tweet in tweets:
@@ -77,7 +82,6 @@ def store_tweets_into_db(tweets):
             tweet = Tweet(tweet_id=_tweet_id, text=_tweet.text)
             db.session.add(tweet)
             db.session.commit()
-
 
 @app.route('/logout')
 def logout():
