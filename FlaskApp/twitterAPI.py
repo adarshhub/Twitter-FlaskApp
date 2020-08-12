@@ -20,7 +20,6 @@ def create_api(access_token, access_token_secret):
     my_id = my_credentials.id
     my_name = my_credentials.name
     my_twitter_handler = my_credentials.screen_name
-    print(f'---------------"{my_twitter_handler}"-------------------')
 
 def get_my_id():
     return my_id
@@ -29,6 +28,8 @@ def get_my_twitter_handler():
     return my_twitter_handler
 
 def my_timeline():
+    if api is None:
+        create_api()
     tweets = api.GetHomeTimeline()
     return tweets
 
