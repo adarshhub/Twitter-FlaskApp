@@ -23,4 +23,27 @@ $(document).ready(function () {
         // });
 
     });
+
+    $('.remove_friend_btn').on('click', function () {
+        var elm = $(this).parent().parent();
+        var _id = elm.data('id');
+        if (_id != null) {
+            $.ajax({
+                data: {
+                    id: _id
+                },
+                type: 'POST',
+                url: "/remove_friend"
+            }).done(function (data) {
+                if (data.msg == "success") {
+                    elm.remove();
+                } else {
+                    alert("Not successfull");
+                }
+            })
+        }
+
+
+    });
 });
+

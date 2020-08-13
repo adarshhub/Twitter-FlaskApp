@@ -15,3 +15,7 @@ img {
 div.tweet-box{
   max-height: 350px;
 }
+
+.remove_friend_btn:hover{
+  cursor: pointer;
+}
