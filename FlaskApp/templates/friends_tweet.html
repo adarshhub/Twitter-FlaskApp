@@ -17,7 +17,16 @@
 </nav>
 
 <!-- Page content -->
-<div class="row">
+<div class="row" class="pt-3">
+    <div class="col">
+        <form id="addFriendForm">
+            <div class="form-group">
+                <label for="friendHandlerInput" class="form-control-label">Add Friend</label>
+                <input type="text" class="form-control" id="friendHandlerInput" placeholder="Enter Handler" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
     <div class="col" style="overflow: scroll">
         <h2>Tweets</h2>
         <div class="tweet-box">
@@ -37,4 +46,5 @@
         </div>
     </div>
 </div>
+
 {%endblock body %}

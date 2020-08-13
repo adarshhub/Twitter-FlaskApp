@@ -30,6 +30,7 @@ def get_my_twitter_handler():
     return my_twitter_handler
 
 def my_timeline():
+    return []
     if api is None:
         create_api()
     tweets = api.GetHomeTimeline()

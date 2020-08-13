@@ -1,6 +1,6 @@
-from flask import render_template, url_for, redirect, flash, request, session
+from flask import render_template, url_for, redirect, flash, request, session, jsonify
 from FlaskApp.forms import LoginForm, RegistrationForm, TweetForm, MessageForm
-from FlaskApp.models import User, TwitterMsg, Tweet
+from FlaskApp.models import User, TwitterMsg, Tweet, FriendsHandler
 from FlaskApp.token import consumer_token, consumer_secret
 from FlaskApp.config import app, db, bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
@@ -65,7 +65,7 @@ def index():
     return render_template("index.html", title="home", form=form)
 
 
-@app.route('/friends_tweet', methods=['GET', 'POST'])
+@app.route('/friends_tweet', methods=['GET'])
 @login_required
 def friends_tweet():
     all_tweets = my_timeline()
@@ -82,6 +82,20 @@ def store_tweets_into_db(tweets):
             tweet = Tweet(tweet_id=_tweet_id, text=_tweet.text)
             db.session.add(tweet)
             db.session.commit()
+
+@login_required
+@app.route('/add_friend', methods=['POST'])
+def add_friend():
+    handler = request.form['handler']
+    fh = FriendsHandler.query.filter_by(user_id=current_user.id, friend_twitter_handler=handler).first()
+    if fh:
+        return jsonify({'msg': 'Already a Friend'})
+    else:
+        fh = FriendsHandler(user_id=current_user.id, friend_twitter_handler=handler)
+        db.session.add(fh)
+        db.session.commit()
+        return jsonify({'msg': 'Friend Added'})
+
 
 @app.route('/logout')
 def logout():
