@@ -72,7 +72,7 @@ def friends_tweet():
     #filtering tweets
     my_friends = current_user.friends
     friends_tweets = [tweet for tweet in all_tweets if tweet.user.screen_name in [x.friend_twitter_handler for x in my_friends]]
-    store_tweets_into_db(friends_tweets)
+    #store_tweets_into_db(friends_tweets)
     return render_template("friends_tweet.html", title="Tweet", tweets=friends_tweets, friends=my_friends)
 
 def store_tweets_into_db(tweets):
